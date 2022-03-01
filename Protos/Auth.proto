@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option csharp_namespace = "BackgRPC.Protos";
+
+service AuthProtoService {
+	rpc AuthUser(AuthUserRequest) returns (AuthUserModel) {}
+}
+
+message AuthUserRequest {
+	string Email = 1;
+}
+
+message AuthUserModel {
+	string Email = 1;
+	string Token = 2;
+}
