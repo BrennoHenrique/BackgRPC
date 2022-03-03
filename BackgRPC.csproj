@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <None Remove="Protos\Auth.proto" />
+    <None Remove="Protos\Time.proto" />
   </ItemGroup>
 
   <ItemGroup>
@@ -15,6 +16,7 @@
 
   <ItemGroup>
     <Protobuf Include="Protos\Auth.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\Time.proto" GrpcServices="Server" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
 ﻿using BackgRPC.Services;
+using BackgRPC.Services.GrpcStreaming;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +14,8 @@ namespace BackgRPC
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddGrpc();
+
+            services.AddTransient<IGrpcStreamingService, GrpcStreamingService>();
 
             services.AddCors(o => o.AddPolicy("AllowAll", builder =>
             {
@@ -40,6 +43,10 @@ namespace BackgRPC
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGrpcService<AuthService>()
+                    .EnableGrpcWeb()
+                    .RequireCors("AllowAll");
+
+                endpoints.MapGrpcService<TimeService>()
                     .EnableGrpcWeb()
                     .RequireCors("AllowAll");
             });

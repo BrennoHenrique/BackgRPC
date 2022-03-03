@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+option csharp_namespace = "BackgRPC.Protos";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+service TimeProtoService {
+	rpc GetCurrentTimeStream (google.protobuf.Empty) returns (stream CurrentTimeModel) {}
+}
+
+message CurrentTimeModel {
+	google.protobuf.Timestamp timestamp = 1;
+}
