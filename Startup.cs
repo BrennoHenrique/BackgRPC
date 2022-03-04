@@ -1,9 +1,12 @@
-﻿using BackgRPC.Services;
+﻿using BackgRPC.Filters.Settings;
+using BackgRPC.Services;
 using BackgRPC.Services.GrpcStreaming;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Threading.Tasks;
 
 namespace BackgRPC
 {
@@ -24,6 +27,17 @@ namespace BackgRPC
                     .AllowAnyHeader()
                     .WithExposedHeaders("Grpc-Status", "Grpc-Message", "Grpc-Encoding", "Grpc-Accept-Encoding");
             }));
+
+            services.AddAuthorization().AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer("UserAuthorization", options =>
+            {
+                options.RequireHttpsMetadata = false;
+                options.SaveToken = true;
+                options.TokenValidationParameters = SettingsJwt.TokenValidationParameters();
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -35,6 +49,8 @@ namespace BackgRPC
             }
 
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseGrpcWeb(new GrpcWebOptions { DefaultEnabled = true });
 
