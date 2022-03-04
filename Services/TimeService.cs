@@ -12,7 +12,7 @@ namespace BackgRPC.Services
     {
         private GrpcStreamingConfig config => new GrpcStreamingConfig()
             .SetDelay(1500)
-            .SetInfinite(false);
+            .SetInfinite(true);
 
         private readonly IGrpcStreamingService _grpcStreamingService;
 
