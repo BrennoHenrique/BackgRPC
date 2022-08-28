@@ -1,12 +1,13 @@
 ﻿using BackgRPC.Filters.Settings;
 using BackgRPC.Services;
 using BackgRPC.Services.GrpcStreaming;
+using Grpc.AspNetCore.Server;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Threading.Tasks;
+using System;
 
 namespace BackgRPC
 {
@@ -16,7 +17,10 @@ namespace BackgRPC
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddGrpc();
+            services.AddGrpc()
+                .AddServiceOptions((Action<GrpcServiceOptions<TService>> configure) =>
+                {
+                });
 
             services.AddTransient<IGrpcStreamingService, GrpcStreamingService>();
 
